@@ -6,7 +6,4 @@
     <style name="FullscreenTheme" parent="AppTheme">
     </style>
 
-    <style name="FullscreenActionBarStyle">
-    </style>
-
 </resources>
