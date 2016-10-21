@@ -30,7 +30,22 @@ public class WebClient extends WebViewClient {
     @SuppressWarnings("Deprecated")
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         if (url.startsWith(SERVER_URL)) {
-            if (url.endsWith("index.php?mod=weixin:connect")) {
+            String mod = null;
+            int offset = url.indexOf('?');
+            if (offset >= 0) {
+                String[] parameters = url.substring(offset + 1).split("&");
+                for (String parameter : parameters) {
+                    if (parameter.startsWith("mod=")) {
+                        mod = parameter.substring(4);
+                        break;
+                    }
+                }
+            }
+            if (mod == null) {
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+
+            if (mod.equals("weixin:connect")) {
                 SendAuth.Req request = new SendAuth.Req();
                 request.scope = "snsapi_userinfo";
                 request.state = "login";
