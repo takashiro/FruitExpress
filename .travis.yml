@@ -11,6 +11,12 @@ android:
     - extra-google-m2repository
     - sys-img-armeabi-v7a-android-25
 sudo: required
+before_install:
+  - cd sign
+  - wget http://dl.weifruit.cn/fruitexp.keystore
+  - wget http://dl.weifruit.cn/keystore.properties.enc
+  - openssl aes-256-ecb -d -k $KEYSTORE_PASSWORD -in keystore.properties.enc -out keystore.properties
+  - cd ..
 before_script:
   - mksdcard -l mySdCard 64M mySdCard.img
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
