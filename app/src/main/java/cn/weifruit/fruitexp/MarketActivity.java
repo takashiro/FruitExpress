@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -18,7 +19,9 @@ public class MarketActivity extends Activity {
         setContentView(R.layout.activity_market);
 
         mContentView = (WebView) findViewById(R.id.content_view);
-        mContentView.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = mContentView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setUserAgentString("NativeApp");
         mClient = new WebClient(this);
         mContentView.setWebViewClient(mClient);
 

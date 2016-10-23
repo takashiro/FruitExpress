@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -37,12 +38,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp response){
-        SendAuth.Resp resp = (SendAuth.Resp) response;
-        if (resp.state.equals("login")) {
-            Intent intent = new Intent(this, MarketActivity.class);
-            intent.setAction("weixin_login");
-            intent.putExtra("code", resp.code);
-            startActivity(intent);
+        switch (response.getType()) {
+            case ConstantsAPI.COMMAND_SENDAUTH:
+                SendAuth.Resp resp = (SendAuth.Resp) response;
+                Intent intent = new Intent(this, MarketActivity.class);
+                intent.setAction("weixin_login");
+                intent.putExtra("code", resp.code);
+                startActivity(intent);
+                break;
         }
     }
 }
