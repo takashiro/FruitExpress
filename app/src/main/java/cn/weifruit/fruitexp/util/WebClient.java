@@ -31,7 +31,7 @@ public class WebClient extends WebViewClient {
 
         mHandler = new LinkedHashMap<String, UrlHandler>();
         mHandler.put("weixin:connect", new WeixinConnect());
-        mHandler.put("weixin;pay", new WeixinPay());
+        mHandler.put("weixin:pay", new WeixinPay());
     }
 
     @Override
