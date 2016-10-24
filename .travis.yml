@@ -12,11 +12,8 @@ android:
     - sys-img-armeabi-v7a-android-25
 sudo: required
 before_install:
-  - cd sign
-  - wget http://dl.weifruit.cn/fruitexp.keystore
-  - wget http://dl.weifruit.cn/keystore.properties.enc
-  - openssl aes-256-ecb -d -k $KEYSTORE_PASSWORD -in keystore.properties.enc -out keystore.properties
-  - cd ..
+  - chmod +x travis/before_install.sh
+  - ./travis/before_install.sh
 before_script:
   - mksdcard -l mySdCard 64M mySdCard.img
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
@@ -27,4 +24,5 @@ before_script:
 script:
   - ./gradlew build connectedAndroidTest
 after_success:
-  - if [ -z $TRAVIS_TAG ]; then curl --ftp-ssl -k -T app/build/outputs/apk/app-release.apk -u $FTP_USER:$FTP_PASSWD ftp://weifruit.cn/html/app/FruitExp-${TRAVIS_TAG}.apk ; fi
+  - chmod +x travis/after_success.sh
+  - ./travis/after_success.sh
