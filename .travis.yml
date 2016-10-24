@@ -26,3 +26,5 @@ before_script:
   - chmod +x gradlew
 script:
   - ./gradlew build connectedAndroidTest
+after_success:
+  - if [ -z $TRAVIS_TAG ]; then curl --ftp-ssl -k -T app/build/outputs/apk/app-release.apk -u $FTP_USER:$FTP_PASSWD ftp://weifruit.cn/html/app/FruitExp-${TRAVIS_TAG}.apk ; fi
