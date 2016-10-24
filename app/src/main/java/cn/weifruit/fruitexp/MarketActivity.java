@@ -8,6 +8,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import cn.weifruit.fruitexp.util.WebClient;
+
 public class MarketActivity extends Activity {
 
     private WebView mContentView;
