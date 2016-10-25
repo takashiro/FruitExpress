@@ -30,8 +30,9 @@ public class WebClient extends WebViewClient {
         }
 
         mHandler = new LinkedHashMap<String, UrlHandler>();
-        mHandler.put("weixin:connect", new WeixinConnect());
-        mHandler.put("weixin:pay", new WeixinPay());
+        mHandler.put("weixin:connect", new WeixinConnectHandler());
+        mHandler.put("weixin:pay", new WeixinPayHandler());
+        mHandler.put("alipay",  new AlipayHandler());
     }
 
     @Override
@@ -50,10 +51,15 @@ public class WebClient extends WebViewClient {
                 return true;
             }
         }
+
         return false;
     }
 
     IWXAPI getWechatApi() {
         return mWechatApi;
+    }
+
+    Context getContext() {
+        return mContext;
     }
 }

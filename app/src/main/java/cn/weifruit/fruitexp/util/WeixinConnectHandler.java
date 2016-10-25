@@ -4,7 +4,7 @@ import android.webkit.WebView;
 
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 
-public class WeixinConnect implements UrlHandler {
+public class WeixinConnectHandler implements UrlHandler {
 
     public void run(WebClient client, WebView view, String url){
         SendAuth.Req auth = new SendAuth.Req();

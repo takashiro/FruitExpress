@@ -13,42 +13,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-class WeixinPay implements UrlHandler {
+class WeixinPayHandler implements UrlHandler {
 
     public void run(WebClient client, WebView view, String url) {
-        final String apiUrl = url;
+        final String apiUrl = url.substring(WebClient.SERVER_URL.length());
         final IWXAPI wechatApi = client.getWechatApi();
+        final HttpClient api = new HttpClient(WebClient.SERVER_URL);
         Runnable payThread = new Runnable() {
             @Override
             public void run() {
-                URL api = null;
-                try {
-                    api = new URL(apiUrl);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                    return;
-                }
-                HttpURLConnection conn = null;
-                try {
-                    conn = (HttpURLConnection) api.openConnection();
-                } catch (IOException e) {
-                    e.printStackTrace();;
-                    return;
-                }
-
-                conn.setRequestProperty("User-Agent", "NativeApp");
-                String cookie = CookieManager.getInstance().getCookie(WebClient.SERVER_URL);
-                conn.setRequestProperty("Cookie", cookie);
-                try {
-                    conn.connect();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
-
                 PayReq pay = new PayReq();
                 try {
-                    JsonReader reader = new JsonReader(new InputStreamReader(conn.getInputStream()));
+                    JsonReader reader = new JsonReader(new InputStreamReader(api.get(apiUrl)));
                     reader.beginObject();
                     while (reader.hasNext()) {
                         String name = reader.nextName();
@@ -60,6 +36,7 @@ class WeixinPay implements UrlHandler {
                             case "timestamp": pay.timeStamp = reader.nextString(); break;
                             case "noncestr": pay.nonceStr = reader.nextString(); break;
                             case "sign": pay.sign = reader.nextString(); break;
+                            default: reader.skipValue();
                         }
                     }
                     reader.endObject();

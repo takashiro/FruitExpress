@@ -23,7 +23,6 @@ public class MarketActivity extends Activity {
         mContentView = (WebView) findViewById(R.id.content_view);
         WebSettings settings = mContentView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setUserAgentString("NativeApp");
         mClient = new WebClient(this);
         mContentView.setWebViewClient(mClient);
 
