@@ -1,12 +1,15 @@
 package cn.weifruit.fruitexp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import cn.weifruit.fruitexp.util.WebClient;
 
@@ -25,6 +28,18 @@ public class MarketActivity extends Activity {
         settings.setJavaScriptEnabled(true);
         mClient = new WebClient(this);
         mContentView.setWebViewClient(mClient);
+        mContentView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress){
+                ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+                if (newProgress < 100) {
+                    bar.setVisibility(ProgressBar.VISIBLE);
+                    bar.setProgress(newProgress);
+                } else {
+                    bar.setVisibility(ProgressBar.INVISIBLE);
+                }
+            }
+        });
 
         Intent intent = getIntent();
         if (intent.getAction().equals("weixin_login")){
