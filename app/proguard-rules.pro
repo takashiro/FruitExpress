@@ -18,3 +18,7 @@
 -keep class com.tencent.mm.sdk.** {
    *;
 }
+
+-keepattributes InnerClasses com.tencent.mm.sdk.** {
+   *;
+}
