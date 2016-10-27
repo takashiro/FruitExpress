@@ -36,6 +36,7 @@ class WeixinPayHandler implements UrlHandler {
                             case "timestamp": pay.timeStamp = reader.nextString(); break;
                             case "noncestr": pay.nonceStr = reader.nextString(); break;
                             case "sign": pay.sign = reader.nextString(); break;
+                            case "out_trade_no": pay.extData = reader.nextString(); break;
                             default: reader.skipValue();
                         }
                     }

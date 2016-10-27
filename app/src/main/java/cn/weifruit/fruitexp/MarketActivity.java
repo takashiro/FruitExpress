@@ -42,10 +42,10 @@ public class MarketActivity extends Activity {
         });
 
         Intent intent = getIntent();
-        if (intent.getAction().equals("weixin_login")){
-            String code = intent.getStringExtra("code");
-            if (code != null && !code.isEmpty()) {
-                mContentView.loadUrl(WebClient.SERVER_URL + "/index.php?mod=weixin:connect&is_client=1&action=login&code=" + code);
+        if (intent.getAction().equals("loadUrl")){
+            String url = intent.getStringExtra("url");
+            if (url != null && !url.isEmpty()) {
+                mContentView.loadUrl(WebClient.SERVER_URL + "/" + url);
                 return;
             }
         }

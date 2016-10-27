@@ -7,14 +7,14 @@ import android.os.Bundle;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.modelpay.PayResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import cn.weifruit.fruitexp.MarketActivity;
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     IWXAPI mApi;
 
@@ -39,11 +39,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp response){
         switch (response.getType()) {
-            case ConstantsAPI.COMMAND_SENDAUTH:
-                SendAuth.Resp resp = (SendAuth.Resp) response;
+            case ConstantsAPI.COMMAND_PAY_BY_WX:
+                PayResp resp = (PayResp) response;
                 Intent intent = new Intent(this, MarketActivity.class);
                 intent.setAction("loadUrl");
-                intent.putExtra("url", "index.php?mod=weixin:connect&is_client=1&action=login&code=" + resp.code);
+                intent.putExtra("url", "module/weixin/api/callback.php?is_client=1&out_trade_no=" + resp.extData);
                 startActivity(intent);
                 break;
         }
